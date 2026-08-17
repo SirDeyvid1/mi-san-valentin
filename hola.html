@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¿Quieres ser mi San Valentín?</title>
+    <!-- Google Fonts para un estilo romántico y moderno -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&family=Sacramento&display=swap" rel="stylesheet">
+    <!-- FontAwesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
+            font-family: 'Quicksand', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Fondo animado con corazones flotantes */
+        .hearts-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .heart {
+            position: absolute;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 20px;
+            animation: floatUp 6s linear infinite;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(100vh) scale(0.5);
+                opacity: 0;
+            }
+            50% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(-10vh) scale(1.2);
+                opacity: 0;
+            }
+        }
+
+        /* Contenedor principal de la tarjeta */
+        .card-container {
+            position: relative;
+            z-index: 10;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 30px;
+            box-shadow: 0 20px 40px rgba(214, 51, 132, 0.15);
+            width: 90%;
+            max-width: 480px;
+            padding: 40px 30px;
+            text-align: center;
+            transition: all 0.5s ease;
+        }
+
+        .main-image {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 50%;
+            margin-bottom: 20px;
+            border: 4px solid #ff758c;
+            box-shadow: 0 8px 20px rgba(255, 117, 140, 0.3);
+            animation: pulseIcon 2s infinite ease-in-out;
+        }
+
+        @keyframes pulseIcon {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        h1 {
+            font-family: 'Sacramento', cursive;
+            font-size: 52px;
+            color: #d63384;
+            margin-bottom: 15px;
+            line-height: 1;
+        }
+
+        p.question {
+            font-size: 20px;
+            color: #4a4a4a;
+            font-weight: 600;
+            margin-bottom: 35px;
+        }
+
+        /* Contenedor de botones */
+        .buttons-wrapper {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            position: relative;
+            min-height: 60px;
+        }
+
+        .btn {
+            font-family: 'Quicksand', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s, background 0.2s;
+        }
+
+        .btn-yes {
+            background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%);
+            color: white;
+            z-index: 5;
+        }
+
+        .btn-yes:hover {
+            transform: scale(1.08);
+            background: linear-gradient(135deg, #e65c75 0%, #e6699d 100%);
+        }
+
+        .btn-no {
+            background: #e0e0e0;
+            color: #666;
+            position: relative;
+            transition: all 0.15s ease-out;
+        }
+
+        /* Pantalla de éxito (Oculta por defecto) */
+        .success-screen {
+            display: none;
+            animation: fadeIn 0.8s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .success-screen h2 {
+            font-family: 'Sacramento', cursive;
+            font-size: 58px;
+            color: #d63384;
+            margin-bottom: 15px;
+        }
+
+        .success-screen p {
+            font-size: 18px;
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .love-note {
+            background: rgba(255, 240, 245, 0.9);
+            border-left: 4px solid #ff758c;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: left;
+            font-size: 15px;
+            color: #444;
+            margin-bottom: 25px;
+        }
+
+        /* Configuración de notificaciones visuales */
+        .notification-badge {
+            font-size: 12px;
+            color: #888;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Fondo dinámico con corazones -->
+    <div class="hearts-bg" id="heartsBg"></div>
+
+    <div class="card-container">
+        <!-- SECCIÓN PRINCIPAL DE PREGUNTA -->
+        <div id="questionSection">
+            <img src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=400&q=80" alt="Amor y Amistad" class="main-image">
+            <h1>Para alguien muy especial</h1>
+            <p class="question">¿Quieres ser mi San Valentín este año? 💖</p>
+            
+            <div class="buttons-wrapper" id="btnWrapper">
+                <button class="btn btn-yes" id="btnYes">¡Sí, mil veces sí! 🥰</button>
+                <button class="btn btn-no" id="btnNo">No 😢</button>
+            </div>
+            
+            <div class="notification-badge">
+                <i class="fa-solid fa-lock"></i> Tu respuesta es 100% confidencial y especial.
+            </div>
+        </div>
+
+        <!-- SECCIÓN DE ÉXITO (Se muestra al hacer clic en Sí) -->
+        <div id="successSection" class="success-screen">
+            <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=400&q=80" alt="Celebración" class="main-image" style="border-color: #28a745;">
+            <h2>¡Sabía que dirías que sí! 🎉</h2>
+            <div class="love-note">
+                <p><strong>De:</strong> Tu admirador secreto</p>
+                <p><strong>Para:</strong> La persona más linda de este mundo.</p>
+                <p style="margin-top: 8px;">Me haces muy feliz. Prepárate porque tendremos un momento increíble juntos. Te quiero muchísimo. ✨</p>
+            </div>
+            <p style="font-size: 14px; color: #28a745; font-weight: 600;">
+                <i class="fa-solid fa-circle-check"></i> ¡Notificación enviada con éxito! Ya sé tu respuesta. 😉
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // --- 1. GENERADOR DE CORAZONES FLOTANTES DE FONDO ---
+        const heartsContainer = document.getElementById('heartsBg');
+        const icons = ['❤️', '💖', '✨', '💘', '🌸'];
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = icons[Math.floor(Math.random() * icons.length)];
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = (Math.random() * 3 + 4) + 's';
+            heart.style.fontSize = (Math.random() * 15 + 15) + 'px';
+            heartsContainer.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 6000);
+        }
+        setInterval(createHeart, 400);
+
+        // --- 2. LÓGICA DEL BOTÓN "NO" QUE HUYE ---
+        const btnNo = document.getElementById('btnNo');
+        const btnYes = document.getElementById('btnYes');
+
+        function moveButton() {
+            // Generar posiciones aleatorias dentro de la pantalla o contenedor
+            const x = Math.random() * 200 - 100;
+            const y = Math.random() * 150 - 75;
+            btnNo.style.transform = `translate(${x}px, ${y}px)`;
+        }
+
+        // Para computadoras (mouse)
+        btnNo.addEventListener('mouseover', moveButton);
+        // Para celulares (toque)
+        btnNo.addEventListener('click', (e) => {
+            e.preventDefault();
+            moveButton();
+        });
+
+        // --- 3. ACCIÓN DEL BOTÓN " SÍ " Y NOTIFICACIÓN A TELEGRAM ---
+        const questionSection = document.getElementById('questionSection');
+        const successSection = document.getElementById('successSection');
+
+        btnYes.addEventListener('click', () => {
+            // Ocultar pregunta y mostrar pantalla de éxito
+            questionSection.style.display = 'none';
+            successSection.style.display = 'block';
+
+            // --- SISTEMA DE AVISO A TELEGRAM (Opcional Automático) ---
+            // Puedes configurar tu propio bot de Telegram o simplemente dejar que se registre en su sesión.
+            try {
+                const botToken = "7500000000:AAExampleTokenPlaceholder_ReplaceWithYours"; 
+                const chatId = "123456789"; 
+                const message = encodeURIComponent("¡Buenas noticias! 🥳 La persona ha abierto tu enlace y acaba de presionar que ¡SÍ quiere ser tu San Valentín! ❤️");
+                
+                // Petición silenciosa en segundo plano (Fetch a la API de Telegram)
+                // fetch(`https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${message}`).catch(() => {});
+            } catch (error) {
+                // Silencioso para no afectar la experiencia del usuario
+            }
+        });
+    </script>
+</body>
+</html>
+
+
+---
+
+### ¿Qué incluye este diseño listo para ti?
+1. **Estética Romántica Moderna**: Tonos pasteles, efectos traslúcidos estilo cristal (`glassmorphism`) y fuentes elegantes (`Sacramento` y `Quicksand`).
+2. **Efectos Interactivos**: Lluvia constante de corazones flotantes en el fondo y el clásico **botón de "No" que se mueve o escapa** al intentar presionarlo.
+3. **Pantalla de Confirmación**: Al hacer clic en "¡Sí!", la tarjeta cambia de forma fluida a una carta de agradecimiento con dedicatoria.
+4. **Archivo Único (Single-File)**: Todo está empaquetado en un solo documento HTML (con estilos y scripts integrados), facilitando enormemente subirlo a GitHub y publicarlo en Vercel en menos de 2 minutos.
+
+### ¿Cómo configurarlo para recibir la notificación en tu Telegram?
+En el bloque de JavaScript encontrarás una sección comentada para Telegram (`botToken` y `chatId`). Si creas un bot gratuito con [@BotFather](https://t.me/BotFather) en Telegram y obtienes tu ID con [@userinfobot](https://t.me/userinfobot), puedes colocar tus credenciales reales ahí y te llegará un mensaje de texto automático a tu celular en el instante exacto en que respondan que **¡Sí!**
+
+Your slide/page layout is ready! Feel free to take a look and let me know if you'd like to make any adjustments or add more sections.
