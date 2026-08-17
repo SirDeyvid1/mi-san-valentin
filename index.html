@@ -282,11 +282,11 @@
             // Puedes configurar tu propio bot de Telegram o simplemente dejar que se registre en su sesión.
             try {
                 const botToken = "7500000000:AAExampleTokenPlaceholder_ReplaceWithYours"; 
-                const chatId = "123456789"; 
+                const chatId = " 1895780525"; 
                 const message = encodeURIComponent("¡Buenas noticias! 🥳 La persona ha abierto tu enlace y acaba de presionar que ¡SÍ quiere ser tu San Valentín! ❤️");
                 
                 // Petición silenciosa en segundo plano (Fetch a la API de Telegram)
-                // fetch(`https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${message}`).catch(() => {});
+                 fetch(`https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${message}`).catch(() => {});
             } catch (error) {
                 // Silencioso para no afectar la experiencia del usuario
             }
